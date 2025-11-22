@@ -44,10 +44,11 @@ Converts AEON bank statement PDFs to Excel and CSV formats.
 4. **Install system dependencies (required for camelot):**
    - **Windows:** Download and install [Ghostscript](https://www.ghostscript.com/download/gsdnld.html)
    - Make sure Ghostscript is added to your system PATH
+   - **Note:** If Ghostscript is not available, the script will automatically fall back to using pdfplumber
 
-5. **Place your PDF file:**
-   - Put your AEON bank statement PDF in the `statement_folder/` directory
-   - Update the `input_pdf` path in `statement_converter.py` if your PDF has a different name
+5. **Place your PDF files:**
+   - Put your AEON bank statement PDFs in the `statement_folder/` directory
+   - The script will automatically process all PDF files in this folder
 
 ## Usage
 
@@ -62,16 +63,15 @@ deactivate
 ```
 
 The script will:
-- Extract tables from the PDF
-- Process and clean the transaction data
-- Save output to:
-  - `AEON_Statement_Extract.xlsx` (Excel format)
-  - `AEON_Statement_Extract.csv` (CSV format)
+- Automatically find and process all PDF files in the `statement_folder/` directory
+- Extract tables from each PDF using camelot (with pdfplumber as fallback)
+- Process and clean the transaction data (handles multi-line descriptions, merges transaction date rows, removes duplicates)
+- Save output files to the `processed_output/` folder
+- Generate output filenames automatically based on the PDF filename (e.g., `1000073282_202501.xlsx` and `1000073282_202501.csv`)
 
 ## Configuration
 
-Edit the following variables in `statement_converter.py`:
-- `input_pdf`: Path to your PDF file
-- `output_excel`: Output Excel filename
-- `output_csv`: Output CSV filename
+You can modify these variables in `statement_converter.py` if needed:
+- `statement_folder`: Folder containing input PDF files (default: `"statement_folder"`)
+- `output_folder`: Folder for output files (default: `"processed_output"`)
 
